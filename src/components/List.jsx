@@ -1,3 +1,5 @@
+import Item from './Item'
+
 const List = (props) => {
   const { list } = props;
   return (
@@ -5,7 +7,7 @@ const List = (props) => {
       <ul>
         {list.map(item => {
           return (
-            <li>{item.name}</li>
+            <Item item={item}/>
           )
         })}
       </ul>
