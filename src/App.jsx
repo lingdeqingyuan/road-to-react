@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Search from './components/Search'
 import List from './components/List'
 import ActionBar from './components/ActionBar';
@@ -6,7 +6,11 @@ import ActionBar from './components/ActionBar';
 function App() {
   const [list, setList] = useState([{name: 'lyj'}, {name: 'jxx'}]);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search') || 'React');
+
+  useEffect(() => {
+    localStorage.setItem('search', searchTerm);
+  }, [searchTerm])
   
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -28,7 +32,7 @@ function App() {
 
   return (
     <div className="App">
-      <Search handleSearch={handleSearch}/>
+      <Search handleSearch={handleSearch} searchTerm={searchTerm}/>
       <ActionBar handleClickAdd={handleClickAdd} handleClickSub={handleClickSub}/>
       <List list={searchedList}/>
     </div>

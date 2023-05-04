@@ -1,11 +1,9 @@
-import { useState } from "react";
-
-const Search = ({handleSearch}) => {
+const Search = ({handleSearch, searchTerm}) => {
 
   return (
     <div>
       <label htmlFor="name">Name:</label>
-      <input onChange={handleSearch} type="text" id="name" />
+      <input onChange={handleSearch} type="text" id="name" value={searchTerm} />
     </div>
   );
 };
