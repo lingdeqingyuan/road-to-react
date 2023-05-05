@@ -3,6 +3,7 @@ import Search from './components/Search'
 import List from './components/List'
 import ActionBar from './components/ActionBar';
 import axios from 'axios';
+import Form from './components/Form';
 
 const dataList = [{
   name: 'lyj',
@@ -64,6 +65,7 @@ function App() {
 
   return (
     <div className="App">
+      <Form/>
       <Search handleSearch={handleSearch} searchTerm={searchTerm} setUrl={setUrl}/>
       <ActionBar handleClickAdd={handleClickAdd} handleClickSub={handleClickSub}/>
       {list.length ? <List list={list} handleDeteleItem={deleteItem}/> : <h1>Loading</h1>}
