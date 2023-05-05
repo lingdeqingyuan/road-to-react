@@ -1,6 +1,9 @@
-const Item = ({item}) => {
+const Item = ({item, handleDeteleItem}) => {
   return (
-    <li>{item.name}</li>
+    <>
+      <li>{item.title}</li>
+      <button onClick={() => handleDeteleItem(item.objectId)}>Detete Item</button>
+    </> 
   )
 }
 

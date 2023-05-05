@@ -1,13 +1,13 @@
 import Item from './Item'
 
 const List = (props) => {
-  const { list } = props;
+  const { list, handleDeteleItem } = props;
   return (
     <div>
       <ul>
         {list.map(item => {
           return (
-            <Item key={item.name} item={item}/>
+            <Item key={item.objectId} handleDeteleItem={handleDeteleItem} item={item}/>
           )
         })}
       </ul>

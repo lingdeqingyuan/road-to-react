@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Search from './components/Search'
 import List from './components/List'
 import ActionBar from './components/ActionBar';
+import axios from 'axios';
 
 const dataList = [{
   name: 'lyj',
@@ -11,10 +12,14 @@ const dataList = [{
   age: 25
 }]
 
+export const BASE_URL = 'https://hn.algolia.com/api/v1/search'
+
 function App() {
   const [list, setList] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search') || '');
+
+  const [url, setUrl] = useState(`${BASE_URL}?query=`)
 
   useEffect(() => {
     localStorage.setItem('search', searchTerm);
@@ -22,15 +27,12 @@ function App() {
 
   useEffect(() => {
     fetchData().then(res => {
-      setList(res)
-      console.log(res);
+      setList(res.data.hits)
     })
-  }, [])
+  }, [url])
 
   const fetchData = () => {
-    return new Promise(resolve => {
-      setTimeout(() => resolve(dataList), 2000)
-    })
+    return axios.get(url)
   }
 
   const handleSearch = (e) => {
@@ -49,13 +51,22 @@ function App() {
     })
   }
 
-  const searchedList = list.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const deleteItem = (objectId) => {
+    setList(prev => {
+      const listCopy = [...prev];
+      const index = listCopy.findIndex(item => item.objectId === objectId);
+      listCopy.splice(index, 1);
+      return listCopy;
+    })
+  }
+
+  // const searchedList = list.filter((item) => item.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <div className="App">
-      <Search handleSearch={handleSearch} searchTerm={searchTerm}/>
+      <Search handleSearch={handleSearch} searchTerm={searchTerm} setUrl={setUrl}/>
       <ActionBar handleClickAdd={handleClickAdd} handleClickSub={handleClickSub}/>
-      {list.length ? <List list={searchedList}/> : <h1>Loading</h1>}
+      {list.length ? <List list={list} handleDeteleItem={deleteItem}/> : <h1>Loading</h1>}
     </div>
   )
 }
