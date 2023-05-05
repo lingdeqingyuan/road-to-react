@@ -3,15 +3,36 @@ import Search from './components/Search'
 import List from './components/List'
 import ActionBar from './components/ActionBar';
 
-function App() {
-  const [list, setList] = useState([{name: 'lyj'}, {name: 'jxx'}]);
+const dataList = [{
+  name: 'lyj',
+  age: 27
+}, {
+  name: 'jxx',
+  age: 25
+}]
 
-  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search') || 'React');
+function App() {
+  const [list, setList] = useState([]);
+
+  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search') || '');
 
   useEffect(() => {
     localStorage.setItem('search', searchTerm);
   }, [searchTerm])
-  
+
+  useEffect(() => {
+    fetchData().then(res => {
+      setList(res)
+      console.log(res);
+    })
+  }, [])
+
+  const fetchData = () => {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(dataList), 2000)
+    })
+  }
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   }
@@ -34,7 +55,7 @@ function App() {
     <div className="App">
       <Search handleSearch={handleSearch} searchTerm={searchTerm}/>
       <ActionBar handleClickAdd={handleClickAdd} handleClickSub={handleClickSub}/>
-      <List list={searchedList}/>
+      {list.length ? <List list={searchedList}/> : <h1>Loading</h1>}
     </div>
   )
 }

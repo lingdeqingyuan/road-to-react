@@ -7,7 +7,7 @@ const List = (props) => {
       <ul>
         {list.map(item => {
           return (
-            <Item item={item}/>
+            <Item key={item.name} item={item}/>
           )
         })}
       </ul>
